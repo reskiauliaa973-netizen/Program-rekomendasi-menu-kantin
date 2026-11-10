@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rekomendasi Menu Kantin</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+  body{background:#dbeafe;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;padding:20px}
+  /* STIKER BERGERAK - TOPIK KANTIN */
+  .stiker{position:absolute;font-size:42px;animation:melayang 4s ease-in-out infinite;z-index:1}
+  .s1{top:6%;left:7%}.s2{top:10%;right:8%;animation-delay:.8s}.s3{bottom:8%;left:10%;animation-delay:1.2s}.s4{bottom:10%;right:7%;animation-delay:.4s}.s5{top:45%;left:2%;animation-delay:1.6s}.s6{top:45%;right:2%;animation-delay:.2s}
+  @keyframes melayang{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-18px) rotate(8deg)}}
+  .card{background:#fff;width:100%;max-width:480px;padding:28px 22px;border-radius:24px;text-align:center;box-shadow:0 15px 35px rgba(37,99,235,.25);border:3px solid #2563eb;position:relative;z-index:2;max-height:92vh;overflow-y:auto}
+  .card h1{color:#1e40af;font-size:26px;margin:10px 0 8px}
+  .card p{color:#475569;font-size:15px;line-height:1.5}
+  .gambar{font-size:65px;animation:melayang 3s infinite}
+  /* TOMBOL IYA / TIDAK */
+  .btn-area{margin-top:22px;height:70px;display:flex;justify-content:center;gap:16px;align-items:center}
+  button{border:none;cursor:pointer;padding:14px 32px;font-size:18px;font-weight:800;border-radius:999px}
+  #btnIya{background:#2563eb;color:#fff;box-shadow:0 6px 0 #1e3a8a}
+  #btnIya:active{transform:translateY(4px);box-shadow:0 2px 0 #1e3a8a}
+  #btnTidak{background:#ef4444;color:#fff;box-shadow:0 6px 0 #991b1b;position:relative}
+  /* PESAN POSITIF + REKOMENDASI */
+  #pesan{display:none;margin-top:18px;background:#dbeafe;border:2px dashed #2563eb;padding:16px;border-radius:16px;color:#1e40af;font-weight:700;line-height:1.6;animation:pop .4s ease;text-align:left}
+  @keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+  .menu{background:#fff;padding:12px;border-radius:12px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;color:#334155}
+  .menu b{color:#1e40af}
+  .harga{background:#2563eb;color:#fff;padding:5px 11px;border-radius:999px;font-size:13px;font-weight:800}
+  .footer{margin-top:14px;font-size:11px;color:#94a3b8}
+</style>
+</head>
+<body>
+
+  <!-- STIKER BERGERAK -->
+  <div class="stiker s1">🍔</div>
+  <div class="stiker s2">🍟</div>
+  <div class="stiker s3">🥤</div>
+  <div class="stiker s4">🍜</div>
+  <div class="stiker s5">🍩</div>
+  <div class="stiker s6">🍗</div>
+
+  <div class="card">
+    <div class="gambar">🏫🍔</div>
+    <h1>Rekomendasi Menu Kantin</h1>
+    <p id="pertanyaan">Bingung mau jajan apa hari ini?<br><b>Mau ku kasih rekomendasi menu kantin terenak?</b></p>
+
+    <div class="btn-area">
+      <button id="btnIya">IYA ✅</button>
+      <button id="btnTidak">TIDAK ❌</button>
+    </div>
+
+    <div id="pesan"></div>
+    <div class="footer">Tugas Informatika | Github Pages</div>
+  </div>
+
+<script>
+  // ===== JAVASCRIPT =====
+  const btnIya = document.getElementById('btnIya');
+  const btnTidak = document.getElementById('btnTidak');
+  const pesan = document.getElementById('pesan');
+  const pertanyaan = document.getElementById('pertanyaan');
+
+  // 1. TOMBOL TIDAK = PINDAH TERUS SAMPAI PENCET IYA
+  function pindahTombol(){
+    btnTidak.style.position = 'fixed';
+    const maxX = window.innerWidth - 130;
+    const maxY = window.innerHeight - 70;
+    btnTidak.style.left = Math.floor(Math.random() * maxX) + 'px';
+    btnTidak.style.top = Math.floor(Math.random() * maxY) + 'px';
+    btnTidak.style.zIndex = '99';
+
+    // Tombol IYA makin besar
+    let ukuran = parseFloat(window.getComputedStyle(btnIya).fontSize);
+    if(ukuran < 28){
+      btnIya.style.fontSize = (ukuran + 2) + 'px';
+    }
+  }
+  btnTidak.addEventListener('mouseover', pindahTombol);
+  btnTidak.addEventListener('click', pindahTombol);
+  btnTidak.addEventListener('touchstart', pindahTombol);
+
+  // 2. TOMBOL IYA = MUNCUL PESAN POSITIF + REKOMENDASI MENU KANTIN
+  btnIya.addEventListener('click', function(){
+    btnTidak.style.display = 'none'; // Tombol TIDAK hilang
+    pertanyaan.innerHTML = "Yeay! Pilihan tepat! 🎉";
+    pesan.style.display = 'block';
+    pesan.innerHTML = `
+      🎉 KAMU ANAK PINTAR & BIJAK! 🎉<br>
+      Kamu sudah mau memilih menu kantin yang enak dan sehat. Jajan di kantin itu bikin kamu semangat belajar!<br><br>
+      ⭐ <b>REKOMENDASI MENU KANTIN HARI INI:</b>
+      <div class="menu"><div><b>🍛 Nasi Goreng Spesial</b><br><span style="font-size:12px">Kenyang, enak, porsi besar</span></div><div class="harga">Rp 10.000</div></div>
+      <div class="menu"><div><b>🍗 Ayam Geprek + Nasi</b><br><span style="font-size:12px">Pedas, crispy, favorit anak sekolah</span></div><div class="harga">Rp 12.000</div></div>
+      <div class="menu"><div><b>🍩 Donat Coklat</b><br><span style="font-size:12px">Manis, lembut, buat cemilan</span></div><div class="harga">Rp 5.000</div></div>
+      <div class="menu"><div><b>🧋 Es Teh Manis</b><br><span style="font-size:12px">Segar, dingin, pelepas dahaga</span></div><div class="harga">Rp 3.000</div></div>
+      <div style="text-align:center;margin-top:12px">Selamat jajan! Jangan lupa buang sampah pada tempatnya ya! 💙🗑️</div>
+    `;
+  });
+</script>
+</body>
+</html>
